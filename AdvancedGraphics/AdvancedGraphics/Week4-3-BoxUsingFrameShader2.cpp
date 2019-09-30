@@ -106,7 +106,6 @@ public:
 	~ShapesApp();
 
 
-
 	virtual bool Initialize()override;
 
 
