@@ -100,6 +100,34 @@ public:
     MeshData CreateCylinder(float bottomRadius, float topRadius, float height, uint32 sliceCount, uint32 stackCount);
 
 	///<summary>
+	/// Creates a wedge parallel to the y-axis, and centered about the origin.  
+	/// The bottom and top radius can vary to form various cone shapes rather than true
+	// cylinders.  The stacks parameters control the degree of tessellation.
+	///</summary>
+	MeshData CreateWedge(float bottomRadius, float topRadius, float height, uint32 stackCount);
+
+	///<summary>
+	/// Creates a cone parallel to the y-axis, and centered about the origin.  
+	/// The bottom radius can vary
+	/// The slices and stacks parameters control the degree of tessellation.
+	///</summary>
+	MeshData CreateCone(float bottomRadius, float height, uint32 sliceCount, uint32 stackCount);
+
+	///<summary>
+	/// Creates a pyramid parallel to the y-axis, and centered about the origin.  
+	/// The bottom radius can vary
+	/// The stacks parameters control the degree of tessellation.
+	///</summary>
+	MeshData CreatePyramid(float bottomRadius, float height, uint32 stackCount);
+
+	///<summary>
+	/// Creates a prism parallel to the y-axis, and centered about the origin.  
+	/// The bottom radius can vary
+	/// The stacks parameters control the degree of tessellation.
+	///</summary>
+	MeshData CreatePrism(float bottomRadius, float height, uint32 stackCount);
+
+	///<summary>
 	/// Creates an mxn grid in the xz-plane with m rows and n columns, centered
 	/// at the origin with the specified width and depth.
 	///</summary>

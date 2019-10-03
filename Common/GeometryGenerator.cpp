@@ -473,6 +473,26 @@ GeometryGenerator::MeshData GeometryGenerator::CreateCylinder(float bottomRadius
     return meshData;
 }
 
+GeometryGenerator::MeshData GeometryGenerator::CreateWedge(float bottomRadius, float topRadius, float height, uint32 stackCount)
+{
+	return CreateCylinder(bottomRadius, topRadius, height, 3, stackCount);
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreateCone(float bottomRadius, float height, uint32 sliceCount, uint32 stackCount)
+{
+	return CreateCylinder(bottomRadius, 0, height, sliceCount, stackCount);
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreatePyramid(float bottomRadius, float height, uint32 stackCount)
+{
+	return CreateCone(bottomRadius, height, 4, stackCount);
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreatePrism(float bottomRadius, float height, uint32 stackCount)
+{
+	return CreateCone(bottomRadius, height, 3, stackCount);
+}
+
 void GeometryGenerator::BuildCylinderTopCap(float bottomRadius, float topRadius, float height,
 											uint32 sliceCount, uint32 stackCount, MeshData& meshData)
 {
