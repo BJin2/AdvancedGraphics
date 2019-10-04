@@ -37,10 +37,11 @@ enum PrimitiveType
 	Prism,
 	Wedge,
 	Diamond,
+	PentaCylinder,
 	Count
 };
 
-const std::string drawArgs[(int)PrimitiveType::Count] = {"box", "cylinder","geosphere","cone","pyramid","prism","wedge", "diamond"};
+const std::string drawArgs[(int)PrimitiveType::Count] = {"box", "cylinder","geosphere","cone","pyramid","prism","wedge", "diamond", "penta"};
 
 // Lightweight structure stores parameters to draw a shape.  This will
 
@@ -1407,6 +1408,5 @@ void ShapesApp::DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::v
 		cmdList->DrawIndexedInstanced(ri->IndexCount, 1, ri->StartIndexLocation, ri->BaseVertexLocation, 0);
 
 	}
-
 }
 

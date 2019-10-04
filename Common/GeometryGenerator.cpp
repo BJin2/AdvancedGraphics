@@ -473,26 +473,6 @@ GeometryGenerator::MeshData GeometryGenerator::CreateCylinder(float bottomRadius
     return meshData;
 }
 
-GeometryGenerator::MeshData GeometryGenerator::CreateWedge(float bottomRadius, float topRadius, float height, uint32 stackCount)
-{
-	return CreateCylinder(bottomRadius, topRadius, height, 3, stackCount);
-}
-
-GeometryGenerator::MeshData GeometryGenerator::CreateCone(float bottomRadius, float height, uint32 sliceCount, uint32 stackCount)
-{
-	return CreateCylinder(bottomRadius, 0, height, sliceCount, stackCount);
-}
-
-GeometryGenerator::MeshData GeometryGenerator::CreatePyramid(float bottomRadius, float height, uint32 stackCount)
-{
-	return CreateCone(bottomRadius, height, 4, stackCount);
-}
-
-GeometryGenerator::MeshData GeometryGenerator::CreatePrism(float bottomRadius, float height, uint32 stackCount)
-{
-	return CreateCone(bottomRadius, height, 3, stackCount);
-}
-
 void GeometryGenerator::BuildCylinderTopCap(float bottomRadius, float topRadius, float height,
 											uint32 sliceCount, uint32 stackCount, MeshData& meshData)
 {
@@ -566,39 +546,6 @@ void GeometryGenerator::BuildCylinderBottomCap(float bottomRadius, float topRadi
 		meshData.Indices32.push_back(baseIndex + i);
 		meshData.Indices32.push_back(baseIndex + i+1);
 	}
-}
-
-GeometryGenerator::MeshData GeometryGenerator::CreateDiamond(float radius, float height, uint32 sliceCount)
-{
-
-	MeshData upper = CreateCylinder(radius, 0, height, sliceCount, 1);
-	MeshData lower = CreateCylinder(0, radius, height, sliceCount, 1);
-
-	MeshData meshData;
-
-	for (uint32 i = 0; i < upper.Vertices.size(); i++)
-	{
-		upper.Vertices[i].Position.y += height / 2;
-		meshData.Vertices.push_back(upper.Vertices[i]);
-	}
-	for (uint32 i = 0; i < upper.Indices32.size(); i++)
-	{
-		meshData.Indices32.push_back(upper.Indices32[i]);
-	}
-
-
-	for (uint32 i = 0; i < lower.Vertices.size(); i++)
-	{
-		lower.Vertices[i].Position.y -= height / 2;
-		meshData.Vertices.push_back(lower.Vertices[i]);
-	}
-	for (uint32 i = 0; i < lower.Indices32.size(); i++)
-	{
-		lower.Indices32[i] += upper.Vertices.size();
-		meshData.Indices32.push_back(lower.Indices32[i]);
-	}
-
-	return meshData;
 }
 
 GeometryGenerator::MeshData GeometryGenerator::CreateGrid(float width, float depth, uint32 m, uint32 n)
@@ -708,3 +655,64 @@ GeometryGenerator::MeshData GeometryGenerator::CreateQuad(float x, float y, floa
 
     return meshData;
 }
+
+#pragma region 6 Primitives
+
+GeometryGenerator::MeshData GeometryGenerator::CreatePentaCylinder(float bottomRadius, float topRadius, float height, uint32 sliceCount, uint32 stackCount)
+{
+	return CreateCylinder(bottomRadius, topRadius, height, 5, stackCount);
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreateDiamond(float radius, float height, uint32 sliceCount)
+{
+
+	MeshData upper = CreateCylinder(radius, 0, height, sliceCount, 1);
+	MeshData lower = CreateCylinder(0, radius, height, sliceCount, 1);
+
+	MeshData meshData;
+
+	for (uint32 i = 0; i < upper.Vertices.size(); i++)
+	{
+		upper.Vertices[i].Position.y += height / 2;
+		meshData.Vertices.push_back(upper.Vertices[i]);
+	}
+	for (uint32 i = 0; i < upper.Indices32.size(); i++)
+	{
+		meshData.Indices32.push_back(upper.Indices32[i]);
+	}
+
+
+	for (uint32 i = 0; i < lower.Vertices.size(); i++)
+	{
+		lower.Vertices[i].Position.y -= height / 2;
+		meshData.Vertices.push_back(lower.Vertices[i]);
+	}
+	for (uint32 i = 0; i < lower.Indices32.size(); i++)
+	{
+		lower.Indices32[i] += upper.Vertices.size();
+		meshData.Indices32.push_back(lower.Indices32[i]);
+	}
+
+	return meshData;
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreateWedge(float bottomRadius, float topRadius, float height, uint32 stackCount)
+{
+	return CreateCylinder(bottomRadius, topRadius, height, 3, stackCount);
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreateCone(float bottomRadius, float height, uint32 sliceCount, uint32 stackCount)
+{
+	return CreateCylinder(bottomRadius, 0, height, sliceCount, stackCount);
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreatePyramid(float bottomRadius, float height, uint32 stackCount)
+{
+	return CreateCone(bottomRadius, height, 4, stackCount);
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreatePrism(float bottomRadius, float height, uint32 stackCount)
+{
+	return CreateCone(bottomRadius, height, 3, stackCount);
+}
+#pragma endregion
