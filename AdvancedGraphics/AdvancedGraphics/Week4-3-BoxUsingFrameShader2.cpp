@@ -36,10 +36,11 @@ enum PrimitiveType
 	Pyramid,
 	Prism,
 	Wedge,
+	Diamond,
 	Count
 };
 
-const std::string drawArgs[(int)PrimitiveType::Count] = {"box", "cylinder","geosphere","cone","pyramid","prism","wedge"};
+const std::string drawArgs[(int)PrimitiveType::Count] = {"box", "cylinder","geosphere","cone","pyramid","prism","wedge", "diamond"};
 
 // Lightweight structure stores parameters to draw a shape.  This will
 
@@ -1121,6 +1122,8 @@ void ShapesApp::BuildShapeGeometry()
 			break;
 		case PrimitiveType::Wedge :
 			p.mesh = geoGen.CreateWedge(1.0f, 1.0f, 1.0f, 1);
+		case PrimitiveType::Diamond:
+			p.mesh = geoGen.CreateDiamond(1.0f, 1.0f, 6);
 			break;
 		}
 
@@ -1342,11 +1345,11 @@ void ShapesApp::BuildRenderItems()
 		Ritem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 		//TODO use proper drawArgs
-		Ritem->IndexCount = Ritem->Geo->DrawArgs[drawArgs[5]].IndexCount;
+		Ritem->IndexCount = Ritem->Geo->DrawArgs[drawArgs[7]].IndexCount;
 
-		Ritem->StartIndexLocation = Ritem->Geo->DrawArgs[drawArgs[5]].StartIndexLocation;
+		Ritem->StartIndexLocation = Ritem->Geo->DrawArgs[drawArgs[7]].StartIndexLocation;
 
-		Ritem->BaseVertexLocation = Ritem->Geo->DrawArgs[drawArgs[5]].BaseVertexLocation;
+		Ritem->BaseVertexLocation = Ritem->Geo->DrawArgs[drawArgs[7]].BaseVertexLocation;
 
 		mAllRitems.push_back(std::move(Ritem));
 	}

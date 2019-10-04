@@ -128,6 +128,13 @@ public:
 	MeshData CreatePrism(float bottomRadius, float height, uint32 stackCount);
 
 	///<summary>
+	/// Creates a diamond parallel to the y-axis, and centered about the origin.  
+	/// The radius and height can vary
+	/// The slices and stacks parameters control the degree of tessellation.
+	///</summary>
+	MeshData CreateDiamond(float radius, float height, uint32 sliceCount);
+
+	///<summary>
 	/// Creates an mxn grid in the xz-plane with m rows and n columns, centered
 	/// at the origin with the specified width and depth.
 	///</summary>

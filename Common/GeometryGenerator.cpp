@@ -568,6 +568,39 @@ void GeometryGenerator::BuildCylinderBottomCap(float bottomRadius, float topRadi
 	}
 }
 
+GeometryGenerator::MeshData GeometryGenerator::CreateDiamond(float radius, float height, uint32 sliceCount)
+{
+
+	MeshData upper = CreateCylinder(radius, 0, height, sliceCount, 1);
+	MeshData lower = CreateCylinder(0, radius, height, sliceCount, 1);
+
+	MeshData meshData;
+
+	for (uint32 i = 0; i < upper.Vertices.size(); i++)
+	{
+		upper.Vertices[i].Position.y += height / 2;
+		meshData.Vertices.push_back(upper.Vertices[i]);
+	}
+	for (uint32 i = 0; i < upper.Indices32.size(); i++)
+	{
+		meshData.Indices32.push_back(upper.Indices32[i]);
+	}
+
+
+	for (uint32 i = 0; i < lower.Vertices.size(); i++)
+	{
+		lower.Vertices[i].Position.y -= height / 2;
+		meshData.Vertices.push_back(lower.Vertices[i]);
+	}
+	for (uint32 i = 0; i < lower.Indices32.size(); i++)
+	{
+		lower.Indices32[i] += upper.Vertices.size();
+		meshData.Indices32.push_back(lower.Indices32[i]);
+	}
+
+	return meshData;
+}
+
 GeometryGenerator::MeshData GeometryGenerator::CreateGrid(float width, float depth, uint32 m, uint32 n)
 {
     MeshData meshData;
