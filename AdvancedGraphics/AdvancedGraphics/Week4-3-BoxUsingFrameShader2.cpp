@@ -842,7 +842,7 @@ void ShapesApp::BuildTestObjects()
 {
 	for (int i = 0; i < PrimitiveType::Count; i++)
 	{
-		DrawableItem temp(drawArgs[i], XMFLOAT3(0, 0, i * 2), XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1));
+		DrawableItem temp(drawArgs[i], XMFLOAT3(i * 2, i * 2, i * 2), XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1));
 		itemList.push_back(temp);
 	}
 }
@@ -1121,6 +1121,7 @@ void ShapesApp::BuildShapeGeometry()
 			break;
 		case PrimitiveType::Wedge :
 			p.mesh = geoGen.CreateWedge(1.0f, 1.0f, 1.0f, 1);
+			break;
 		case PrimitiveType::Diamond:
 			p.mesh = geoGen.CreateDiamond(1.0f, 1.0f, 6);
 			break;
@@ -1155,11 +1156,8 @@ void ShapesApp::BuildShapeGeometry()
 	{
 		for (UINT j = 0; j < primitives[i].mesh.Vertices.size(); j++, k++)
 		{
-
 			vertices[k].Pos = primitives[i].mesh.Vertices[j].Position;
-
 			vertices[k].Color = XMFLOAT4(DirectX::Colors::Gold);
-
 		}
 	}
 
