@@ -48,10 +48,10 @@ const std::string drawArgs[(int)PrimitiveType::Count] = {"box", "cylinder","geos
 
 struct DrawableItem
 {
-	DrawableItem(PrimitiveType _type, XMFLOAT3 _position, XMFLOAT3 _rotation, XMFLOAT3 _scale):
+	DrawableItem(std::string _type, XMFLOAT3 _position, XMFLOAT3 _rotation, XMFLOAT3 _scale):
 		type(_type), position(_position), rotation(_rotation), scale(_scale)
 	{}
-	PrimitiveType type;
+	std::string type;
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 	XMFLOAT3 scale;
@@ -840,10 +840,9 @@ void ShapesApp::UpdateMainPassCB(const GameTimer& gt)
 
 void ShapesApp::BuildTestObjects()
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < PrimitiveType::Count; i++)
 	{
-		int a = i % 3;
-		DrawableItem temp((PrimitiveType)a, XMFLOAT3(0, 0, i * 2), XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1));
+		DrawableItem temp(drawArgs[i], XMFLOAT3(0, 0, i * 2), XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1));
 		itemList.push_back(temp);
 	}
 }
@@ -1113,7 +1112,7 @@ void ShapesApp::BuildShapeGeometry()
 		case PrimitiveType::GeoSphere : 
 			p.mesh = geoGen.CreateGeosphere(1.0f, 3);
 			break;
-		//TODO add diamond
+		//TODO add another primitive
 		case PrimitiveType::Prism : 
 			p.mesh = geoGen.CreatePrism(1.0f, 1.0f, 1);
 			break;
@@ -1330,26 +1329,26 @@ void ShapesApp::BuildRenderItems()
 		auto Ritem = std::make_unique<RenderItem>();
 
 		XMMATRIX transform = XMMatrixIdentity();
-		//transform *= XMMatrixScaling(itemList[i].scale.x, itemList[i].scale.y, itemList[i].scale.z);
-		//transform *= XMMatrixRotationY(itemList[i].rotation.y);
-		//transform *= XMMatrixRotationX(itemList[i].rotation.x);
-		//transform *= XMMatrixRotationZ(itemList[i].rotation.z);
-		//transform *= XMMatrixTranslation(itemList[i].position.x, itemList[i].position.y, itemList[i].position.z);
+		transform *= XMMatrixScaling(itemList[i].scale.x, itemList[i].scale.y, itemList[i].scale.z);
+		transform *= XMMatrixRotationY(itemList[i].rotation.y);
+		transform *= XMMatrixRotationX(itemList[i].rotation.x);
+		transform *= XMMatrixRotationZ(itemList[i].rotation.z);
+		transform *= XMMatrixTranslation(itemList[i].position.x, itemList[i].position.y, itemList[i].position.z);
 		//TODO apply proper transform
-		XMStoreFloat4x4(&Ritem->World, XMMatrixScaling(1.0f, 1.0f, 1.0f) * XMMatrixTranslation((float)i*2, (float)i*2, (float)i*2));
+		XMStoreFloat4x4(&Ritem->World, transform);
 
 		Ritem->ObjCBIndex = i;
 
 		Ritem->Geo = mGeometries["shapeGeo"].get();
 
 		Ritem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		
 
-		//TODO use proper drawArgs
-		Ritem->IndexCount = Ritem->Geo->DrawArgs[drawArgs[7]].IndexCount;
+		Ritem->IndexCount = Ritem->Geo->DrawArgs[drawArgs[i]].IndexCount;
 
-		Ritem->StartIndexLocation = Ritem->Geo->DrawArgs[drawArgs[7]].StartIndexLocation;
+		Ritem->StartIndexLocation = Ritem->Geo->DrawArgs[drawArgs[i]].StartIndexLocation;
 
-		Ritem->BaseVertexLocation = Ritem->Geo->DrawArgs[drawArgs[7]].BaseVertexLocation;
+		Ritem->BaseVertexLocation = Ritem->Geo->DrawArgs[drawArgs[i]].BaseVertexLocation;
 
 		mAllRitems.push_back(std::move(Ritem));
 	}
