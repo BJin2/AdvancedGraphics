@@ -1,0 +1,162 @@
+Object List Object 1 : 
+	Primitive : GeoSphere
+	Transform : 
+		Position : -1.25, 4.33, 1.95
+		Rotation : 0, 270.0002, 0
+		Scale : 0.3254748, 0.3254748, 0.3254748
+ Object 2 : 
+	Primitive : Penta
+	Transform : 
+		Position : -3.3, 0.9021821, 3.397972
+		Rotation : 284.9998, 180.0002, 89.99999
+		Scale : 0.5641803, 0.1508533, 0.5641803
+ Object 3 : 
+	Primitive : Cylinder
+	Transform : 
+		Position : 1.714004, 1.438, 4.942996
+		Rotation : 0, 270.0002, 0
+		Scale : 0.42566, 3.007311, 0.42566
+ Object 4 : 
+	Primitive : Penta
+	Transform : 
+		Position : 0.2400002, 4.98, 3.53
+		Rotation : 0, 270.0002, 0
+		Scale : 0.73049, 2.414489, 0.73049
+ Object 5 : 
+	Primitive : GeoSphere
+	Transform : 
+		Position : 1.72, 4.33, 4.97
+		Rotation : 0, 270.0002, 0
+		Scale : 0.3254748, 0.3254748, 0.3254748
+ Object 6 : 
+	Primitive : Penta
+	Transform : 
+		Position : 0.1470799, 0, 0
+		Rotation : 0, 162, 0
+		Scale : 2.540232, 0.2251267, 2.540232
+ Object 7 : 
+	Primitive : Cylinder
+	Transform : 
+		Position : -1.239996, 1.438, 4.943005
+		Rotation : 0, 270.0002, 0
+		Scale : 0.42566, 3.007311, 0.42566
+ Object 8 : 
+	Primitive : Pyramid
+	Transform : 
+		Position : 0.2399999, 7, 3.41
+		Rotation : 0, 315.0002, 0
+		Scale : 1.4823, 2.545257, 1.4823
+ Object 9 : 
+	Primitive : Penta
+	Transform : 
+		Position : 3.582, 0.8622514, 3.44999
+		Rotation : 0.0003380771, 180.0002, 90
+		Scale : 0.5641802, 0.1508534, 0.5641804
+ Object 10 : 
+	Primitive : Box
+	Transform : 
+		Position : 2.4, 1.06, 3.449994
+		Rotation : 0, 270.0002, 0
+		Scale : 1.590197, 2.258385, 2.258385
+ Object 11 : 
+	Primitive : GeoSphere
+	Transform : 
+		Position : 1.73, 4.33, 1.94
+		Rotation : 0, 270.0002, 0
+		Scale : 0.3254748, 0.3254748, 0.3254748
+ Object 12 : 
+	Primitive : Box
+	Transform : 
+		Position : 0.24, 1.38, 3.45
+		Rotation : 0, 270.0002, 0
+		Scale : 2.976376, 2.976376, 2.976376
+ Object 13 : 
+	Primitive : Prism
+	Transform : 
+		Position : 1.78, 3.422, 5
+		Rotation : 0, 79.68755, 0
+		Scale : 0.6344424, 0.9675251, 0.6344424
+ Object 14 : 
+	Primitive : Wedge
+	Transform : 
+		Position : 0.2399999, 3.3, 3.41
+		Rotation : -0.0003261415, 90.00017, 90
+		Scale : 1.036437, 3.224434, 1.812712
+ Object 15 : 
+	Primitive : Diamond
+	Transform : 
+		Position : 0.2399999, 9.79, 3.412
+		Rotation : 0, 270.0002, 0
+		Scale : 0.54764, 1.040516, 0.54764
+ Object 16 : 
+	Primitive : Wedge
+	Transform : 
+		Position : -1.79, 2.41, 3.430005
+		Rotation : -0.0003308326, 180.0002, 90.00001
+		Scale : 1.036436, 3.224429, 1.184732
+ Object 17 : 
+	Primitive : Cylinder
+	Transform : 
+		Position : -1.240004, 1.438, 1.940004
+		Rotation : 0, 270.0002, 0
+		Scale : 0.42566, 3.007311, 0.42566
+ Object 18 : 
+	Primitive : Cylinder
+	Transform : 
+		Position : 0.31, 1.73, 1.93
+		Rotation : 270, 0, 0
+		Scale : 0.6578819, 0.1074058, 0.6578819
+ Object 19 : 
+	Primitive : Box
+	Transform : 
+		Position : -2.14, 1.06, 3.450007
+		Rotation : 0, 270.0002, 0
+		Scale : 1.590197, 2.258385, 2.258385
+ Object 20 : 
+	Primitive : Box
+	Transform : 
+		Position : 0.31, 0.95, 1.93
+		Rotation : 270, 0, 0
+		Scale : 1.291093, 0.1074058, 1.754078
+ Object 21 : 
+	Primitive : GeoSphere
+	Transform : 
+		Position : -1.23, 4.33, 4.96
+		Rotation : 0, 270.0002, 0
+		Scale : 0.3254748, 0.3254748, 0.3254748
+ Object 22 : 
+	Primitive : Prism
+	Transform : 
+		Position : -1.22, 3.422, 1.9
+		Rotation : 0, 144.5696, 0
+		Scale : 0.6344429, 0.9675251, 0.6344429
+ Object 23 : 
+	Primitive : Prism
+	Transform : 
+		Position : 1.81, 3.422, 1.83
+		Rotation : 0, 288.3624, 0
+		Scale : 0.6344427, 0.9675251, 0.6344427
+ Object 24 : 
+	Primitive : Prism
+	Transform : 
+		Position : -1.306475, 3.422, 4.97575
+		Rotation : 5.493277E-06, 343.4757, 5.388611E-06
+		Scale : 0.6344428, 0.9675251, 0.6344428
+ Object 25 : 
+	Primitive : Cone
+	Transform : 
+		Position : 0.2399946, 3.464, 1.631
+		Rotation : 0, 270.0002, 90
+		Scale : 0.5452451, 0.3612247, 0.5452446
+ Object 26 : 
+	Primitive : Wedge
+	Transform : 
+		Position : 2.23, 2.32, 3.409994
+		Rotation : -0.0003477365, 180.0002, 90
+		Scale : 1.036437, 2.725637, 1.184734
+ Object 27 : 
+	Primitive : Cylinder
+	Transform : 
+		Position : 1.713996, 1.438, 1.939996
+		Rotation : 0, 270.0002, 0
+		Scale : 0.42566, 3.007311, 0.42566
