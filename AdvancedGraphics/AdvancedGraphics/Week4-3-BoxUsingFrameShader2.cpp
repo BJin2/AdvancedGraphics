@@ -43,12 +43,15 @@ enum PrimitiveType
 
 const std::string drawArgs[(int)PrimitiveType::Count] = {"box", "cylinder","geosphere","cone","pyramid","prism","wedge", "diamond", "penta"};
 
+const XMFLOAT4 color[(int)PrimitiveType::Count] = { XMFLOAT4(DirectX::Colors::Gold), XMFLOAT4(DirectX::Colors::Azure), XMFLOAT4(DirectX::Colors::BurlyWood), XMFLOAT4(DirectX::Colors::Lavender), XMFLOAT4(DirectX::Colors::DarkSeaGreen), XMFLOAT4(DirectX::Colors::MidnightBlue), XMFLOAT4(DirectX::Colors::Ivory), XMFLOAT4(DirectX::Colors::Tan), XMFLOAT4(DirectX::Colors::Olive)};
+
 // Lightweight structure stores parameters to draw a shape.  This will
 
 // vary from app-to-app.
 
 struct DrawableItem
 {
+	DrawableItem() {}
 	DrawableItem(std::string _type, XMFLOAT3 _position, XMFLOAT3 _rotation, XMFLOAT3 _scale):
 		type(_type), position(_position), rotation(_rotation), scale(_scale)
 	{}
@@ -841,9 +844,34 @@ void ShapesApp::UpdateMainPassCB(const GameTimer& gt)
 
 void ShapesApp::BuildTestObjects()
 {
-	for (int i = 0; i < PrimitiveType::Count; i++)
+	std::ifstream fin_castle(L"CastleData/CastleInfo.txt");
+	if (!fin_castle)
 	{
-		DrawableItem temp(drawArgs[i], XMFLOAT3(i * 2, i * 2, i * 2), XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1));
+		MessageBox(0, L"CastleData/CastleInfo.txt not found.", 0, 0);
+	}
+	std::ifstream fin_transform(L"CastleData/TransformInfo.txt");
+	if (!fin_transform)
+	{
+		MessageBox(0, L"CastleData/TransformInfo.txt not found.", 0, 0);
+	}
+
+	UINT ocount;
+	std::string ignore;
+
+	fin_castle >> ocount;
+
+	for (UINT i = 0; i < ocount; i++)
+	{
+		DrawableItem temp;
+		int argIndex;
+
+		fin_castle >> argIndex;
+		temp.type = drawArgs[argIndex];
+
+		fin_transform >> temp.position.x >> temp.position.y >> temp.position.z;
+		fin_transform >> temp.rotation.x >> temp.rotation.y >> temp.rotation.z;
+		fin_transform >> temp.scale.x >> temp.scale.y >> temp.scale.z;
+
 		itemList.push_back(temp);
 	}
 }
@@ -1126,6 +1154,9 @@ void ShapesApp::BuildShapeGeometry()
 		case PrimitiveType::Diamond:
 			p.mesh = geoGen.CreateDiamond(1.0f, 1.0f, 6);
 			break;
+		case PrimitiveType::PentaCylinder:
+			p.mesh = geoGen.CreatePentaCylinder(1.0f, 1.0f, 1.0f, 1);
+			break;
 		}
 
 		if (i == 0)
@@ -1158,7 +1189,7 @@ void ShapesApp::BuildShapeGeometry()
 		for (UINT j = 0; j < primitives[i].mesh.Vertices.size(); j++, k++)
 		{
 			vertices[k].Pos = primitives[i].mesh.Vertices[j].Position;
-			vertices[k].Color = XMFLOAT4(DirectX::Colors::Gold);
+			vertices[k].Color = color[i];
 		}
 	}
 
@@ -1329,10 +1360,13 @@ void ShapesApp::BuildRenderItems()
 
 		XMMATRIX transform = XMMatrixIdentity();
 		transform *= XMMatrixScaling(itemList[i].scale.x, itemList[i].scale.y, itemList[i].scale.z);
-		transform *= XMMatrixRotationY(itemList[i].rotation.y);
-		transform *= XMMatrixRotationX(itemList[i].rotation.x);
-		transform *= XMMatrixRotationZ(itemList[i].rotation.z);
+
+		transform *= XMMatrixRotationZ(XMConvertToRadians(itemList[i].rotation.z));
+		transform *= XMMatrixRotationX(XMConvertToRadians(itemList[i].rotation.x));
+		transform *= XMMatrixRotationY(XMConvertToRadians(itemList[i].rotation.y));
+
 		transform *= XMMatrixTranslation(itemList[i].position.x, itemList[i].position.y, itemList[i].position.z);
+
 		//TODO apply proper transform
 		XMStoreFloat4x4(&Ritem->World, transform);
 
@@ -1343,11 +1377,11 @@ void ShapesApp::BuildRenderItems()
 		Ritem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		
 
-		Ritem->IndexCount = Ritem->Geo->DrawArgs[drawArgs[i]].IndexCount;
+		Ritem->IndexCount = Ritem->Geo->DrawArgs[itemList[i].type].IndexCount;
 
-		Ritem->StartIndexLocation = Ritem->Geo->DrawArgs[drawArgs[i]].StartIndexLocation;
+		Ritem->StartIndexLocation = Ritem->Geo->DrawArgs[itemList[i].type].StartIndexLocation;
 
-		Ritem->BaseVertexLocation = Ritem->Geo->DrawArgs[drawArgs[i]].BaseVertexLocation;
+		Ritem->BaseVertexLocation = Ritem->Geo->DrawArgs[itemList[i].type].BaseVertexLocation;
 
 		mAllRitems.push_back(std::move(Ritem));
 	}

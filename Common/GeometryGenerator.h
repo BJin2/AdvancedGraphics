@@ -151,7 +151,7 @@ public:
 	/// The bottom and top radius can vary to form various cone shapes rather than true
 	// cylinders.  The slices and stacks parameters control the degree of tessellation.
 	///</summary>
-	MeshData CreatePentaCylinder(float bottomRadius, float topRadius, float height, uint32 sliceCount, uint32 stackCount);
+	MeshData CreatePentaCylinder(float bottomRadius, float topRadius, float height, uint32 stackCount);
 
 #pragma endregion
 

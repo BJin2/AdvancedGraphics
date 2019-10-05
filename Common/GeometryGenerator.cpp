@@ -658,7 +658,7 @@ GeometryGenerator::MeshData GeometryGenerator::CreateQuad(float x, float y, floa
 
 #pragma region 6 Primitives
 
-GeometryGenerator::MeshData GeometryGenerator::CreatePentaCylinder(float bottomRadius, float topRadius, float height, uint32 sliceCount, uint32 stackCount)
+GeometryGenerator::MeshData GeometryGenerator::CreatePentaCylinder(float bottomRadius, float topRadius, float height, uint32 stackCount)
 {
 	return CreateCylinder(bottomRadius, topRadius, height, 5, stackCount);
 }
