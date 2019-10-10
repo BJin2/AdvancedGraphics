@@ -27,6 +27,8 @@ using namespace DirectX::PackedVector;
 
 const int gNumFrameResources = 3;
 
+//STEP 8
+//
 enum PrimitiveType
 {
 	Box = 0,
@@ -41,14 +43,20 @@ enum PrimitiveType
 	Count
 };
 
+//STEP 9
+//
 const std::string drawArgs[(int)PrimitiveType::Count] = {"box", "cylinder","geosphere","cone","pyramid","prism","wedge", "diamond", "penta"};
 
+//STEP 10
+//
 const XMFLOAT4 color[(int)PrimitiveType::Count] = { XMFLOAT4(DirectX::Colors::Gold), XMFLOAT4(DirectX::Colors::Azure), XMFLOAT4(DirectX::Colors::BurlyWood), XMFLOAT4(DirectX::Colors::Lavender), XMFLOAT4(DirectX::Colors::DarkSeaGreen), XMFLOAT4(DirectX::Colors::MidnightBlue), XMFLOAT4(DirectX::Colors::Ivory), XMFLOAT4(DirectX::Colors::Tan), XMFLOAT4(DirectX::Colors::Olive)};
 
 // Lightweight structure stores parameters to draw a shape.  This will
 
 // vary from app-to-app.
 
+//STEP 11
+//
 struct DrawableItem
 {
 	DrawableItem() {}
@@ -69,6 +77,8 @@ struct Primitive
 	SubmeshGeometry sub;
 };
 
+//STEP 12
+//
 std::vector<DrawableItem> itemList;
 std::vector<Primitive> primitives;
 
@@ -842,6 +852,8 @@ void ShapesApp::UpdateMainPassCB(const GameTimer& gt)
 }
 
 
+//STEP 13
+//
 void ShapesApp::BuildTestObjects()
 {
 	std::ifstream fin_castle(L"CastleData/CastleInfo.txt");
@@ -1124,6 +1136,8 @@ void ShapesApp::BuildShapeGeometry()
 	auto totalVertexCount = 0;
 	std::vector<std::uint16_t> indices;
 
+	//STEP 14
+	//
 	for (UINT i = 0; i < PrimitiveType::Count; i++)
 	{
 		Primitive p;
@@ -1183,6 +1197,8 @@ void ShapesApp::BuildShapeGeometry()
 
 	std::vector<Vertex> vertices(totalVertexCount);
 
+	//STEP 15
+	//
 	UINT k = 0;
 	for (UINT i = 0; i < primitives.size(); i++)
 	{
@@ -1238,6 +1254,8 @@ void ShapesApp::BuildShapeGeometry()
 
 	geo->IndexBufferByteSize = ibByteSize;
 
+	//STEP 16
+	//
 	for (int i = 0; i < primitives.size(); i++)
 	{
 		geo->DrawArgs[drawArgs[i]] = primitives[i].sub;
@@ -1354,10 +1372,14 @@ void ShapesApp::BuildFrameResources()
 
 void ShapesApp::BuildRenderItems()
 {
+	//STEP 17
+	//
 	for (int i = 0; i < itemList.size(); i++)
 	{
 		auto Ritem = std::make_unique<RenderItem>();
 
+		//STEP 18
+		//
 		XMMATRIX transform = XMMatrixIdentity();
 		transform *= XMMatrixScaling(itemList[i].scale.x, itemList[i].scale.y, itemList[i].scale.z);
 
@@ -1367,7 +1389,6 @@ void ShapesApp::BuildRenderItems()
 
 		transform *= XMMatrixTranslation(itemList[i].position.x, itemList[i].position.y, itemList[i].position.z);
 
-		//TODO apply proper transform
 		XMStoreFloat4x4(&Ritem->World, transform);
 
 		Ritem->ObjCBIndex = i;
@@ -1377,6 +1398,8 @@ void ShapesApp::BuildRenderItems()
 		Ritem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		
 
+		//STEP 19
+		//
 		Ritem->IndexCount = Ritem->Geo->DrawArgs[itemList[i].type].IndexCount;
 
 		Ritem->StartIndexLocation = Ritem->Geo->DrawArgs[itemList[i].type].StartIndexLocation;

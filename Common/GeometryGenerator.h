@@ -109,7 +109,10 @@ public:
 	/// Creates a quad aligned with the screen.  This is useful for postprocessing and screen effects.
 	///</summary>
     MeshData CreateQuad(float x, float y, float w, float h, float depth);
-#pragma region 6 Primitives
+
+//STEP 1
+// Make function signitures for 6 new primitives(Wedge, Cone, Pyramid, Prism, Diamond, PentaCylinder)
+#pragma region 6 Primitives	
 
 	///<summary>
 	/// Creates a wedge parallel to the y-axis, and centered about the origin.  
