@@ -28,7 +28,7 @@ using namespace DirectX::PackedVector;
 const int gNumFrameResources = 3;
 
 //STEP 8
-//
+// An enum to define primitive types and it will be used as index of draw argument when building the geometry.
 enum PrimitiveType
 {
 	Box = 0,
@@ -44,23 +44,25 @@ enum PrimitiveType
 };
 
 //STEP 9
-//
-const std::string drawArgs[(int)PrimitiveType::Count] = {"box", "cylinder","geosphere","cone","pyramid","prism","wedge", "diamond", "penta"};
+// An array of strings so save all draw arguments that is going to be used.
+// Its order is the same as the PrimitiveType because PrimitiveType is used as index when building the geometry.
+const std::string drawArgs[(int)PrimitiveType::Count] = { "box", "cylinder","geosphere","cone","pyramid","prism","wedge", "diamond", "penta" };
 
 //STEP 10
-//
-const XMFLOAT4 color[(int)PrimitiveType::Count] = { XMFLOAT4(DirectX::Colors::Gold), XMFLOAT4(DirectX::Colors::Azure), XMFLOAT4(DirectX::Colors::BurlyWood), XMFLOAT4(DirectX::Colors::Lavender), XMFLOAT4(DirectX::Colors::DarkSeaGreen), XMFLOAT4(DirectX::Colors::MidnightBlue), XMFLOAT4(DirectX::Colors::Ivory), XMFLOAT4(DirectX::Colors::Tan), XMFLOAT4(DirectX::Colors::Olive)};
+// An array of colors. This has the same number of elements as the PrimitiveTypes because it's color per shape.
+const XMFLOAT4 color[(int)PrimitiveType::Count] = { XMFLOAT4(DirectX::Colors::Gold), XMFLOAT4(DirectX::Colors::Azure), XMFLOAT4(DirectX::Colors::BurlyWood), XMFLOAT4(DirectX::Colors::Lavender), XMFLOAT4(DirectX::Colors::DarkSeaGreen), XMFLOAT4(DirectX::Colors::MidnightBlue), XMFLOAT4(DirectX::Colors::Ivory), XMFLOAT4(DirectX::Colors::Tan), XMFLOAT4(DirectX::Colors::Olive) };
 
 // Lightweight structure stores parameters to draw a shape.  This will
 
 // vary from app-to-app.
 
 //STEP 11
-//
+// A simple struct that stores draw argument string and transform information
+// Datas from text file will be stored in this format
 struct DrawableItem
 {
 	DrawableItem() {}
-	DrawableItem(std::string _type, XMFLOAT3 _position, XMFLOAT3 _rotation, XMFLOAT3 _scale):
+	DrawableItem(std::string _type, XMFLOAT3 _position, XMFLOAT3 _rotation, XMFLOAT3 _scale) :
 		type(_type), position(_position), rotation(_rotation), scale(_scale)
 	{}
 	std::string type;
@@ -69,6 +71,10 @@ struct DrawableItem
 	XMFLOAT3 scale;
 };
 
+//STEP 12
+// A struct that stores geometry informations that is used in BuildShapeGeometry function
+// By storing these informations, building shapes can be done in loop.
+// So that I don't have to hard code all primitives
 struct Primitive
 {
 	GeometryGenerator::MeshData mesh;
@@ -77,8 +83,10 @@ struct Primitive
 	SubmeshGeometry sub;
 };
 
-//STEP 12
-//
+//STEP 13
+// Vectors to store structs
+// itemList stores all the informations about actual castle.
+// primitives stores geometry datas that is used in BuildShapeGeometry function
 std::vector<DrawableItem> itemList;
 std::vector<Primitive> primitives;
 
@@ -321,7 +329,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	}
 
-	catch (DxException& e)
+	catch (DxException & e)
 
 	{
 
@@ -852,38 +860,43 @@ void ShapesApp::UpdateMainPassCB(const GameTimer& gt)
 }
 
 
-//STEP 13
-//
+//STEP 14
+// Function that read text files and store datas in DrawableItem and add it to itemList vector.
 void ShapesApp::BuildTestObjects()
 {
-	std::ifstream fin_castle(L"CastleData/CastleInfo.txt");
+	//Read text files
+	std::ifstream fin_castle(L"CastleData/CastleInfo.txt");// CastleInfo has data about shape
 	if (!fin_castle)
 	{
 		MessageBox(0, L"CastleData/CastleInfo.txt not found.", 0, 0);
 	}
-	std::ifstream fin_transform(L"CastleData/TransformInfo.txt");
+	std::ifstream fin_transform(L"CastleData/TransformInfo.txt");// TransformInfo has data about transform
 	if (!fin_transform)
 	{
 		MessageBox(0, L"CastleData/TransformInfo.txt not found.", 0, 0);
 	}
 
+	//Number of objects
 	UINT ocount;
-	std::string ignore;
 
 	fin_castle >> ocount;
 
 	for (UINT i = 0; i < ocount; i++)
 	{
+		//Create DrawableItem
 		DrawableItem temp;
 		int argIndex;
 
+		//Get the shape info which is the index of draw argument
 		fin_castle >> argIndex;
 		temp.type = drawArgs[argIndex];
 
+		//Get transform data from text file
 		fin_transform >> temp.position.x >> temp.position.y >> temp.position.z;
 		fin_transform >> temp.rotation.x >> temp.rotation.y >> temp.rotation.z;
 		fin_transform >> temp.scale.x >> temp.scale.y >> temp.scale.z;
 
+		//Add the DrawbleItem instance to itemList
 		itemList.push_back(temp);
 	}
 }
@@ -1136,33 +1149,34 @@ void ShapesApp::BuildShapeGeometry()
 	auto totalVertexCount = 0;
 	std::vector<std::uint16_t> indices;
 
-	//STEP 14
-	//
+	//STEP 15
+	// Storing mesh datas in a loop that runs 9 times(Number of primitives that is going to be used in the castle)
 	for (UINT i = 0; i < PrimitiveType::Count; i++)
 	{
 		Primitive p;
+
+		//Store mesh data depend on its primitive type
 		switch (i)
 		{
-		case PrimitiveType::Box :
+		case PrimitiveType::Box:
 			p.mesh = geoGen.CreateBox(1.0f, 1.0f, 1.0f, 0);
 			break;
-		case PrimitiveType::Cone :
+		case PrimitiveType::Cone:
 			p.mesh = geoGen.CreateCone(1.0f, 1.0f, 32, 1);
 			break;
-		case PrimitiveType::Cylinder :
+		case PrimitiveType::Cylinder:
 			p.mesh = geoGen.CreateCylinder(1.0f, 1.0f, 1.0f, 32, 1);
 			break;
-		case PrimitiveType::GeoSphere : 
+		case PrimitiveType::GeoSphere:
 			p.mesh = geoGen.CreateGeosphere(1.0f, 3);
 			break;
-		//TODO add another primitive
-		case PrimitiveType::Prism : 
+		case PrimitiveType::Prism:
 			p.mesh = geoGen.CreatePrism(1.0f, 1.0f, 1);
 			break;
-		case PrimitiveType::Pyramid : 
+		case PrimitiveType::Pyramid:
 			p.mesh = geoGen.CreatePyramid(1.0f, 1.0f, 1);
 			break;
-		case PrimitiveType::Wedge :
+		case PrimitiveType::Wedge:
 			p.mesh = geoGen.CreateWedge(1.0f, 1.0f, 1.0f, 1);
 			break;
 		case PrimitiveType::Diamond:
@@ -1173,32 +1187,39 @@ void ShapesApp::BuildShapeGeometry()
 			break;
 		}
 
+		//If its the first one, offsets are 0
 		if (i == 0)
 		{
 			p.vertexOffset = 0;
 			p.indexOffset = 0;
 		}
-		else
+		else// From second object, offsets are previous offset + previous vertices/indices size
 		{
-			p.vertexOffset = primitives[i-1].vertexOffset + (UINT)primitives[i-1].mesh.Vertices.size();
-			p.indexOffset = primitives[i-1].indexOffset + (UINT)primitives[i - 1].mesh.Indices32.size();
+			p.vertexOffset = primitives[i - 1].vertexOffset + (UINT)primitives[i - 1].mesh.Vertices.size();
+			p.indexOffset = primitives[i - 1].indexOffset + (UINT)primitives[i - 1].mesh.Indices32.size();
 		}
 
+		//Storing submesh informations
 		p.sub.IndexCount = (UINT)p.mesh.Indices32.size();
 		p.sub.StartIndexLocation = p.indexOffset;
 		p.sub.BaseVertexLocation = p.vertexOffset;
 
+		//number of total vertex.
+		//This will be used as size of a vector of Vetex that stores all vertices
 		totalVertexCount += p.mesh.Vertices.size();
 
+		//Adding indices
 		indices.insert(indices.end(), std::begin(p.mesh.GetIndices16()), std::end(p.mesh.GetIndices16()));
 
+		//Adding primitive into primitives which will be used for passing vertex positions and sub meshes
 		primitives.push_back(p);
 	}
 
 	std::vector<Vertex> vertices(totalVertexCount);
 
-	//STEP 15
-	//
+	//STEP 16
+	// Loop through all vertices and copy vertex positions from primitives
+	// and copy color from color array that is declared at the top(STEP 10)
 	UINT k = 0;
 	for (UINT i = 0; i < primitives.size(); i++)
 	{
@@ -1254,13 +1275,13 @@ void ShapesApp::BuildShapeGeometry()
 
 	geo->IndexBufferByteSize = ibByteSize;
 
-	//STEP 16
-	//
+	//STEP 17
+	// For each primitive, map the submesh with drawArgs(string)
 	for (int i = 0; i < primitives.size(); i++)
 	{
 		geo->DrawArgs[drawArgs[i]] = primitives[i].sub;
 	}
-	
+
 	mGeometries[geo->Name] = std::move(geo);
 }
 
@@ -1372,14 +1393,15 @@ void ShapesApp::BuildFrameResources()
 
 void ShapesApp::BuildRenderItems()
 {
-	//STEP 17
-	//
-	for (int i = 0; i < itemList.size(); i++)
+	//STEP 18
+	// Make RenderItem and pass required informations for all DrawableItem in itemList
+	for (size_t i = 0; i < itemList.size(); i++)
 	{
 		auto Ritem = std::make_unique<RenderItem>();
 
-		//STEP 18
-		//
+		//STEP 19
+		// Calculate transform with the saved values
+		// Scale -> Z rotation -> X rotation -> Y rotation -> Translation
 		XMMATRIX transform = XMMatrixIdentity();
 		transform *= XMMatrixScaling(itemList[i].scale.x, itemList[i].scale.y, itemList[i].scale.z);
 
@@ -1396,10 +1418,10 @@ void ShapesApp::BuildRenderItems()
 		Ritem->Geo = mGeometries["shapeGeo"].get();
 
 		Ritem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-		
 
-		//STEP 19
-		//
+
+		//STEP 20
+		//The string value stored in DrawableItem is used for DrawArgs key
 		Ritem->IndexCount = Ritem->Geo->DrawArgs[itemList[i].type].IndexCount;
 
 		Ritem->StartIndexLocation = Ritem->Geo->DrawArgs[itemList[i].type].StartIndexLocation;

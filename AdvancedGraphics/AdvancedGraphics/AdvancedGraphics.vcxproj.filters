@@ -45,7 +45,7 @@
     <ClCompile Include="FrameResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Week4-3-BoxUsingFrameShader2.cpp">
+    <ClCompile Include="ShapesApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
